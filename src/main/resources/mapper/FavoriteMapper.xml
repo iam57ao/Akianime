@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iam57.akianime.mapper.FavoriteMapper">
+
+    <resultMap id="userFavoritesInfoMap" type="com.iam57.akianime.vo.UserFavoriteInfoVO">
+        <result property="episodeCount" column="episode_count"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <association property="animation" javaType="com.iam57.akianime.vo.AnimationVO">
+            <id property="animationId" column="animation_id"/>
+            <result property="title" column="title"/>
+            <result property="img" column="img"/>
+            <result property="description" column="description"/>
+            <result property="airDate" column="air_date"/>
+            <result property="airWeekday" column="air_weekday"/>
+            <result property="totalEpisodes" column="total_episodes"/>
+        </association>
+    </resultMap>
+
+    <select id="getByFavoriteId" resultType="com.iam57.akianime.entity.Favorite">
+        SELECT *
+        FROM favorites
+        WHERE favorite_id = #{favoriteId}
+    </select>
+
+    <select id="getByUserId" resultMap="userFavoritesInfoMap">
+        SELECT episode_count,
+               a.animation_id,
+               title,
+               img,
+               description,
+               air_date,
+               air_weekday,
+               total_episodes,
+               f.created_at,
+               f.updated_at
+        FROM favorites f
+                 LEFT OUTER JOIN animations a ON f.animation_id = a.animation_id
+        WHERE f.user_id = #{userId}
+    </select>
+
+    <insert id="insert">
+        <selectKey keyProperty="favoriteId,episodeCount,createdAt,updatedAt"
+                   resultType="com.iam57.akianime.entity.Favorite"
+                   order="AFTER">
+            SELECT *
+            FROM favorites
+            WHERE user_id = #{userId} AND animation_id = #{animationId}
+        </selectKey>
+        INSERT INTO favorites (user_id, animation_id, episode_count)
+        VALUES (#{userId}, #{animationId}, #{episodeCount})
+    </insert>
+
+    <delete id="deleteByUserId">
+        DELETE FROM favorites
+        WHERE
+        user_id = #{userId}
+        AND animation_id IN
+        <foreach collection="animationIds" item="animationId" open="(" separator="," close=")">
+            #{animationId}
+        </foreach>
+    </delete>
+
+    <update id="updateByUserIdAndAnimationId">
+        <selectKey keyProperty="favoriteId,episodeCount,createdAt,updatedAt"
+                   resultType="com.iam57.akianime.entity.Favorite"
+                   order="AFTER">
+            SELECT *
+            FROM favorites
+            WHERE user_id = #{userId} AND animation_id = #{animationId}
+        </selectKey>
+        UPDATE favorites
+        <set>
+            <if test="episodeCount != null">
+                episode_count = #{episodeCount}
+            </if>
+        </set>
+        WHERE user_id = #{userId} AND animation_id = #{animationId}
+    </update>
+
+</mapper>

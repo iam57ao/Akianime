@@ -1,0 +1,21 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: Akianime
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.17.19.25:3306/akianime
+    username: akianime
+    password: ERNeEsRWi6Xkk2TT
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:/mapper/*.xml
+jwt:
+  secret: oaSj7CXH@jr#dLRctlUyTIkaR2bAE8Uj
+  header: Authorization
+  expiration-time: 3600
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true

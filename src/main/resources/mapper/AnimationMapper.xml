@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iam57.akianime.mapper.AnimationMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="animationId">
+        INSERT INTO animations (title, img, description, air_date, air_weekday, total_episodes)
+        VALUES (#{title}, #{img}, #{description}, #{airDate}, #{airWeekday}, #{totalEpisodes})
+    </insert>
+
+    <select id="query" resultType="com.iam57.akianime.entity.Animation">
+        <bind name="pattern" value="'%' + title + '%'"/>
+        SELECT * FROM animations
+        <where>
+            <if test="title != null">
+                title like #{pattern}
+            </if>
+            <if test="airDateStart != null">
+                AND air_date >= #{airDateStart}
+            </if>
+            <if test="airDateEnd != null">
+                AND #{airDateEnd} >= air_date
+            </if>
+        </where>
+    </select>
+
+    <select id="getByAnimationId" resultType="com.iam57.akianime.entity.Animation">
+        SELECT *
+        FROM animations
+        WHERE animation_id = #{animationId}
+    </select>
+
+</mapper>
