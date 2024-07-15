@@ -1,5 +1,6 @@
 package com.iam57.akianime.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +19,6 @@ public class FavoriteDTO implements Serializable {
     private static final long serialVersionUID = 4092084649865275111L;
     @NotNull
     private Integer animationId;
+    @Min(0)
     private Integer episodeCount;
 }

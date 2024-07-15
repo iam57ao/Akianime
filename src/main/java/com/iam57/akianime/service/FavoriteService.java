@@ -1,5 +1,6 @@
 package com.iam57.akianime.service;
 
+import com.iam57.akianime.common.result.PageResult;
 import com.iam57.akianime.dto.FavoriteDTO;
 import com.iam57.akianime.dto.FavoriteUpdateDTO;
 import com.iam57.akianime.vo.FavoriteVO;
@@ -12,7 +13,7 @@ import java.util.List;
  * @since 2024/6/30 15:38
  */
 public interface FavoriteService {
-    List<UserFavoriteInfoVO> getByUserId(Integer userId);
+    PageResult<UserFavoriteInfoVO> getByUserId(Integer userId, Integer pageNum, Integer pageSize);
 
     FavoriteVO insertByUserId(Integer userId, FavoriteDTO favoriteDTO);
 

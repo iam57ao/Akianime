@@ -10,7 +10,15 @@
     </insert>
 
     <select id="query" resultType="com.iam57.akianime.entity.Animation">
-        <bind name="pattern" value="'%' + title + '%'"/>
+        <choose>
+            <when test="title">
+                <bind name="pattern" value="'%' + title + '%'"/>
+            </when>
+            <otherwise>
+                <bind name="pattern" value="'%%'"/>
+            </otherwise>
+        </choose>
+
         SELECT * FROM animations
         <where>
             <if test="title != null">
@@ -23,6 +31,7 @@
                 AND #{airDateEnd} >= air_date
             </if>
         </where>
+        ORDER BY air_date DESC
     </select>
 
     <select id="getByAnimationId" resultType="com.iam57.akianime.entity.Animation">

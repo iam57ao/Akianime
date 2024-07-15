@@ -21,4 +21,6 @@ public interface FavoriteMapper {
     void updateByUserIdAndAnimationId(Favorite favorite);
 
     Favorite getByFavoriteId(Integer favoriteId);
+
+    Favorite getByUserIdAndAnimationId(Integer userId, Integer animationId);
 }

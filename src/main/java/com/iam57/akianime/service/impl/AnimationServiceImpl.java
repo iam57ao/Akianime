@@ -40,13 +40,13 @@ public class AnimationServiceImpl implements AnimationService {
         PageResult<AnimationVO> pageResult;
         try (Page<Object> ignored = PageHelper.startPage(animationQueryDTO.getPageNum(), animationQueryDTO.getPageSize())) {
             List<Animation> animations = animationMapper.query(animationQueryDTO);
-            List<AnimationVO> animationVOS = animations.stream().map(animation -> {
+            PageInfo<Animation> pageInfo = new PageInfo<>(animations);
+            List<AnimationVO> animationVOS = pageInfo.getList().stream().map(animation -> {
                 AnimationVO animationVO = new AnimationVO();
                 BeanUtils.copyProperties(animation, animationVO);
                 return animationVO;
             }).toList();
-            PageInfo<AnimationVO> pageInfo = new PageInfo<>(animationVOS);
-            pageResult = new PageResult<>(pageInfo.getTotal(), pageInfo.getPageNum(), pageInfo.getPageSize(), pageInfo.getList());
+            pageResult = new PageResult<>(pageInfo.getTotal(),pageInfo.getPageNum(),pageInfo.getPageSize(),animationVOS);
         }
         return pageResult;
     }

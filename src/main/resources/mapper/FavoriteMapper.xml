@@ -41,6 +41,13 @@
         WHERE f.user_id = #{userId}
     </select>
 
+    <select id="getByUserIdAndAnimationId" resultType="com.iam57.akianime.entity.Favorite">
+        SELECT *
+        FROM favorites
+        WHERE user_id = #{userId}
+          AND animation_id = #{animationId}
+    </select>
+
     <insert id="insert">
         <selectKey keyProperty="favoriteId,episodeCount,createdAt,updatedAt"
                    resultType="com.iam57.akianime.entity.Favorite"

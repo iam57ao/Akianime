@@ -1,6 +1,6 @@
 package com.iam57.akianime.dto;
 
-import com.iam57.akianime.dto.common.QueryBase;
+import com.iam57.akianime.common.pojo.QueryBase;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -8,11 +8,11 @@ import java.io.Serial;
  * @author iam57
  * @since 2024/6/28 18:09
  */
-public class AuthException extends AkianimeException {
+public class EntityAlreadyExistsException extends AkianimeException {
     @Serial
-    private static final long serialVersionUID = 5280039548714831310L;
+    private static final long serialVersionUID = 6515479080376493454L;
 
-    public AuthException(CodeEnum codeEnum) {
+    public EntityAlreadyExistsException(CodeEnum codeEnum) {
         super(codeEnum);
     }
 }

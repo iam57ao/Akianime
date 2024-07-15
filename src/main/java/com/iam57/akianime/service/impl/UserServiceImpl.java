@@ -42,6 +42,10 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         BeanUtils.copyProperties(userUpdateInfoDTO, user);
         user.setUserId(userId);
+        String username = userMapper.getByUserId(userId).getUsername();
+        if (userUpdateInfoDTO.getUsername().equals(username)) {
+            user.setUsername(null);
+        }
         userMapper.updateByUserId(user);
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);

@@ -1,4 +1,4 @@
-package com.iam57.akianime.dto.common;
+package com.iam57.akianime.common.pojo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

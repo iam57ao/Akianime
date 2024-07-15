@@ -1,6 +1,7 @@
 package com.iam57.akianime.controller;
 
 import com.iam57.akianime.annotation.Auth;
+import com.iam57.akianime.common.result.PageResult;
 import com.iam57.akianime.context.UserContext;
 import com.iam57.akianime.dto.FavoriteDTO;
 import com.iam57.akianime.dto.FavoriteUpdateDTO;
@@ -8,6 +9,7 @@ import com.iam57.akianime.common.enums.RoleEnum;
 import com.iam57.akianime.service.FavoriteService;
 import com.iam57.akianime.vo.FavoriteVO;
 import com.iam57.akianime.vo.UserFavoriteInfoVO;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +37,14 @@ public class FavoriteController {
     }
 
     @GetMapping("/users/{user_id}/favorites")
-    public List<UserFavoriteInfoVO> getByUserId(@PathVariable(value = "user_id") Integer userId) {
-        return favoriteService.getByUserId(userId);
+    public PageResult<UserFavoriteInfoVO> getByUserId(
+            @PathVariable(value = "user_id") Integer userId,
+            @NotNull
+            @RequestParam(value = "page_num", required = false) Integer pageNum,
+            @NotNull
+            @RequestParam(value = "page_size", required = false) Integer pageSize
+    ) {
+        return favoriteService.getByUserId(userId, pageNum, pageSize);
     }
 
     @Auth(role = {RoleEnum.ADMIN, RoleEnum.SUPER})
